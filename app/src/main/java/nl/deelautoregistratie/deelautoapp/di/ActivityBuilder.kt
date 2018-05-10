@@ -2,8 +2,8 @@ package nl.deelautoregistratie.deelautoapp.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import nl.deelautoregistratie.deelautoapp.main.MainActivity
-import nl.deelautoregistratie.deelautoapp.main.MainActivityModule
+import nl.deelautoregistratie.deelautoapp.ui.main.MainActivity
+import nl.deelautoregistratie.deelautoapp.ui.main.MainActivityModule
 
 /**
  * Created by dennisvanderzalm on 27-04-18.

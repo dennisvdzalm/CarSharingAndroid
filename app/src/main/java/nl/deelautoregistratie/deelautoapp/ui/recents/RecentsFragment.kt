@@ -1,5 +1,6 @@
-package nl.deelautoregistratie.deelautoapp.recents
+package nl.deelautoregistratie.deelautoapp.ui.recents
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import dagger.android.support.DaggerFragment
 import nl.deelautoregistratie.deelautoapp.R
+import nl.deelautoregistratie.deelautoapp.model.CarSession
+import nl.deelautoregistratie.deelautoapp.networking.DataResponse
 import nl.deelautoregistratie.deelautoapp.utils.arch.ViewModelFactory
 import javax.inject.Inject
 
@@ -29,6 +32,22 @@ class RecentsFragment : DaggerFragment() {
         recentsViewModel = ViewModelProviders
                 .of(this, viewModelFactory)
                 .get(RecentsViewModel::class.java)
+
+        recentsViewModel.recentCarSessions.observe(this, Observer<DataResponse<List<CarSession>>> { dataResponse ->
+            when (dataResponse) {
+                is DataResponse.Progress -> {
+
+                }
+
+                is DataResponse.Success -> {
+
+                }
+
+                is DataResponse.Failure -> {
+
+                }
+            }
+        })
 
     }
 

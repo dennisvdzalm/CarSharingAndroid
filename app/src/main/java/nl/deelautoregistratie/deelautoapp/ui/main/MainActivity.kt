@@ -1,15 +1,12 @@
-package nl.deelautoregistratie.deelautoapp.main
+package nl.deelautoregistratie.deelautoapp.ui.main
 
-import android.app.FragmentManager
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
-import android.support.v7.app.AppCompatActivity
-import dagger.android.AndroidInjection
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import nl.deelautoregistratie.deelautoapp.R
 import nl.deelautoregistratie.deelautoapp.networking.ApiService
-import nl.deelautoregistratie.deelautoapp.recents.RecentsFragment
+import nl.deelautoregistratie.deelautoapp.ui.recents.RecentsFragment
 import javax.inject.Inject
 
 class MainActivity : DaggerAppCompatActivity() {
