@@ -4,7 +4,7 @@ import android.content.Context
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
-import nl.deelautoregistratie.deelautoapp.networking.ApiService
+import nl.deelautoregistratie.deelautoapp.data.networking.ApiService
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

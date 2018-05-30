@@ -2,14 +2,17 @@ package nl.deelautoregistratie.deelautoapp.ui.recents
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.arch.paging.PagedList
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import dagger.android.support.DaggerFragment
+import kotlinx.android.synthetic.main.fragment_recents.*
 import nl.deelautoregistratie.deelautoapp.R
-import nl.deelautoregistratie.deelautoapp.model.CarSession
-import nl.deelautoregistratie.deelautoapp.networking.DataResponse
+import nl.deelautoregistratie.deelautoapp.data.model.CarSession
+import nl.deelautoregistratie.deelautoapp.data.networking.DataResponse
 import nl.deelautoregistratie.deelautoapp.utils.arch.ViewModelFactory
 import javax.inject.Inject
 
@@ -33,22 +36,18 @@ class RecentsFragment : DaggerFragment() {
                 .of(this, viewModelFactory)
                 .get(RecentsViewModel::class.java)
 
-        recentsViewModel.recentCarSessions.observe(this, Observer<DataResponse<List<CarSession>>> { dataResponse ->
+        val adapter = RecentsAdapter()
+
+        car_session_recyclerview.layoutManager = LinearLayoutManager(context)
+        car_session_recyclerview.adapter = adapter
+
+        recentsViewModel.recentCarSessions.observe(this, Observer<DataResponse<PagedList<CarSession>>> { dataResponse ->
             when (dataResponse) {
-                is DataResponse.Progress -> {
-
-                }
-
                 is DataResponse.Success -> {
-
-                }
-
-                is DataResponse.Failure -> {
-
+                    adapter.submitList(dataResponse.data)
                 }
             }
         })
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

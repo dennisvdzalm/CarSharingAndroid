@@ -1,4 +1,4 @@
-package nl.deelautoregistratie.deelautoapp.networking
+package nl.deelautoregistratie.deelautoapp.data.networking
 
 sealed class DataResponse<T>{
     data class Progress<T>(var loading: Boolean) : DataResponse<T>()

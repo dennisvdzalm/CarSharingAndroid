@@ -1,39 +1,32 @@
 package nl.deelautoregistratie.deelautoapp.ui.recents
 
 import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.Transformations.switchMap
 import android.arch.lifecycle.ViewModel
+import android.arch.paging.LivePagedListBuilder
+import android.arch.paging.PagedList
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.subjects.PublishSubject
-import nl.deelautoregistratie.deelautoapp.model.CarSession
-import nl.deelautoregistratie.deelautoapp.networking.ApiService
-import nl.deelautoregistratie.deelautoapp.networking.DataResponse
-import nl.deelautoregistratie.deelautoapp.utils.arch.*
-import nl.deelautoregistratie.deelautoapp.utils.rx.Scheduler
+import nl.deelautoregistratie.deelautoapp.data.datasource.CarSessionDataSource
+import nl.deelautoregistratie.deelautoapp.data.model.CarSession
+import nl.deelautoregistratie.deelautoapp.data.networking.DataResponse
+import nl.deelautoregistratie.deelautoapp.data.repository.CarSessionRepository
+import nl.deelautoregistratie.deelautoapp.utils.arch.toLiveData
 import javax.inject.Inject
 
 /**
  * Created by dennisvanderzalm on 27-04-18.
  */
-class RecentsViewModel @Inject constructor(val apiService: ApiService, val compositeDisposable: CompositeDisposable, val scheduler: Scheduler) : ViewModel() {
-    val carsessionResult: PublishSubject<DataResponse<List<CarSession>>> =
-            PublishSubject.create<DataResponse<List<CarSession>>>()
+class RecentsViewModel @Inject constructor(val carSessionRepository: CarSessionRepository, val compositeDisposable: CompositeDisposable) : ViewModel() {
 
-    val recentCarSessions: LiveData<DataResponse<List<CarSession>>> by lazy {
-        carsessionResult.toLiveData(compositeDisposable)
+    val recentCarSessions: LiveData<DataResponse<PagedList<CarSession>>> by lazy {
+        carSessionRepository.carSessionsResult.toLiveData(compositeDisposable)
     }
 
-    public fun getCarSessions() {
-        apiService.getRecentCarSessions()
-                .performOnBackOutOnMain(scheduler)
-                .subscribe({ carssesions ->
-                    carsessionResult.success(carssesions)
-                }, { error -> handleError(error) })
-                .addTo(compositeDisposable)
-    }
-
-    fun handleError(error: Throwable) {
-        carsessionResult.failed(error)
-    }
+    val myPagingConfig = PagedList.Config.Builder()
+            .setPageSize(50)
+            .setPrefetchDistance(150)
+            .setEnablePlaceholders(true)
+            .build()
 
     override fun onCleared() {
         super.onCleared()

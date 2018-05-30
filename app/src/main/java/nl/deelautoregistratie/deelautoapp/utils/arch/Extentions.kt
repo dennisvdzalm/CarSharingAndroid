@@ -9,7 +9,7 @@ import io.reactivex.Flowable
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
-import nl.deelautoregistratie.deelautoapp.networking.DataResponse
+import nl.deelautoregistratie.deelautoapp.data.networking.DataResponse
 import nl.deelautoregistratie.deelautoapp.utils.rx.Scheduler
 
 fun <T> Flowable<T>.toLiveData(): LiveData<T> = LiveDataReactiveStreams.fromPublisher(this)
