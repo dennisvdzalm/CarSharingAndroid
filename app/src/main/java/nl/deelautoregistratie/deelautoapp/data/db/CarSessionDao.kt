@@ -1,5 +1,6 @@
 package nl.deelautoregistratie.deelautoapp.data.db
 
+import android.arch.paging.DataSource
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
@@ -11,13 +12,10 @@ import nl.deelautoregistratie.deelautoapp.data.model.CarSession
 interface CarSessionDao {
 
     @Query("SELECT * FROM carsessions")
-    fun getAllCarSessions(): Flowable<List<CarSession>>
-
-    @Query("SELECT * FROM carsessions WHERE id = :id")
-    fun getCarSessionById(id: Int)
+    fun getAllCarSessions(): DataSource.Factory<Int, CarSession>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertCarSession(carSession: CarSession)
+    fun insertCarSessions(carSession: List<CarSession>)
 
     @Query("DELETE FROM carsessions")
     fun deleteCarSessions()

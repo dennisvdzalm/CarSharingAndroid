@@ -11,12 +11,7 @@ import nl.deelautoregistratie.deelautoapp.data.db.CarSessionDatabase
 class RecentsModule {
 
     @Provides
-    fun provideCompositeDisposable() : CompositeDisposable{
-        return CompositeDisposable()
-    }
-
-    @Provides
-    fun provideDatabase(context : Context) : CarSessionDao{
-        return CarSessionDatabase.getInstance(context).carSessionDao()
+    fun provideDatabase(context: Context): CarSessionDatabase {
+        return CarSessionDatabase.getInstance(context)
     }
 }

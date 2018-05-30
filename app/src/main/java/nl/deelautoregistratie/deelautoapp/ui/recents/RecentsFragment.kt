@@ -2,7 +2,6 @@ package nl.deelautoregistratie.deelautoapp.ui.recents
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.arch.paging.PagedList
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -11,8 +10,7 @@ import android.view.ViewGroup
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_recents.*
 import nl.deelautoregistratie.deelautoapp.R
-import nl.deelautoregistratie.deelautoapp.data.model.CarSession
-import nl.deelautoregistratie.deelautoapp.data.networking.DataResponse
+import nl.deelautoregistratie.deelautoapp.data.NetworkState
 import nl.deelautoregistratie.deelautoapp.utils.arch.ViewModelFactory
 import javax.inject.Inject
 
@@ -27,27 +25,13 @@ class RecentsFragment : DaggerFragment() {
     lateinit var viewModel: RecentsViewModel
         private set
 
-    lateinit var recentsViewModel: RecentsViewModel
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        recentsViewModel = ViewModelProviders
+        viewModel = ViewModelProviders
                 .of(this, viewModelFactory)
                 .get(RecentsViewModel::class.java)
 
-        val adapter = RecentsAdapter()
-
-        car_session_recyclerview.layoutManager = LinearLayoutManager(context)
-        car_session_recyclerview.adapter = adapter
-
-        recentsViewModel.recentCarSessions.observe(this, Observer<DataResponse<PagedList<CarSession>>> { dataResponse ->
-            when (dataResponse) {
-                is DataResponse.Success -> {
-                    adapter.submitList(dataResponse.data)
-                }
-            }
-        })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -56,6 +40,22 @@ class RecentsFragment : DaggerFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val adapter = RecentsAdapter()
+
+        car_session_recyclerview.layoutManager = LinearLayoutManager(context)
+        car_session_recyclerview.adapter = adapter
+
+        viewModel.carSessions.observe(this, Observer {
+            adapter.submitList(it)
+        })
+
+        viewModel.refreshState.observe(this, Observer {
+            swipe_refresh_layout.isRefreshing = it == NetworkState.LOADING
+        })
+
+        swipe_refresh_layout.setOnRefreshListener {
+            viewModel.refresh()
+        }
     }
 
     companion object {

@@ -4,12 +4,17 @@ import android.content.Context
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
+import nl.deelautoregistratie.deelautoapp.BuildConfig
 import nl.deelautoregistratie.deelautoapp.data.networking.ApiService
+import nl.deelautoregistratie.deelautoapp.data.networking.AuthenticationInterceptor
 import okhttp3.Cache
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.Executor
+import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -27,7 +32,7 @@ class NetworkModule {
                           rxJavaCallAdapterFactory: RxJavaCallAdapterFactory): ApiService {
 
         return Retrofit.Builder()
-                .baseUrl("http://google.com")
+                .baseUrl(BuildConfig.API_URL)
                 .addConverterFactory(gsonConverterFactory)
                 .addCallAdapterFactory(rxJavaCallAdapterFactory)
                 .client(okHttpClient)
@@ -38,8 +43,12 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideOkHttp(cache: Cache): OkHttpClient {
+        val loggin = HttpLoggingInterceptor()
+        loggin.level = HttpLoggingInterceptor.Level.BASIC
+
         val client = OkHttpClient.Builder()
                 .cache(cache)
+                .addInterceptor(loggin)
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
@@ -70,5 +79,11 @@ class NetworkModule {
     @Singleton
     fun provideRxJavaCallAdapterFactory(): RxJavaCallAdapterFactory {
         return RxJavaCallAdapterFactory.create()
+    }
+
+    @Provides
+    @Singleton
+    fun provideNetworkExecutor(): Executor {
+        return Executors.newFixedThreadPool(5)
     }
 }

@@ -22,7 +22,7 @@ abstract class CarSessionDatabase : RoomDatabase() {
                 }
 
         private fun buildDatabase(context: Context) =
-                Room.databaseBuilder(context.applicationContext,
+                Room.databaseBuilder(context,
                         CarSessionDatabase::class.java, "carsession.db")
                         .fallbackToDestructiveMigration()
                         .build()
