@@ -49,6 +49,7 @@ class NetworkModule {
         val client = OkHttpClient.Builder()
                 .cache(cache)
                 .addInterceptor(loggin)
+                .addInterceptor(AuthenticationInterceptor("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODg4OC9sb2dpbiIsImlhdCI6MTUyNzU5MjQ4OSwiZXhwIjoxNTU5MTI4NDg5LCJuYmYiOjE1Mjc1OTI0ODksImp0aSI6Imdsam04QWlkSmR0TkxuRVgifQ.cWyOz1yT-PJ44AVdroQE-g7e1C5mI_8Ak184XPza1EU"))
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)

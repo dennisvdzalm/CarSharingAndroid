@@ -12,7 +12,7 @@ class CarSessionItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemVie
     private val tvMileage: TextView = itemView.findViewById(R.id.tv_mileage)
 
     fun bind(carSession: CarSession?) {
-        val mileage = (carSession?.end ?: 0) - (carSession?.end ?: 0)
+        val mileage = (carSession?.end ?: 0) - (carSession?.start ?: 0)
 
         if (mileage == 0) {
             tvMileage.text = "Loading"
