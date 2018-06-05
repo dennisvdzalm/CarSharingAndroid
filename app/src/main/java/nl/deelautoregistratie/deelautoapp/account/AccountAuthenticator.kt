@@ -1,4 +1,4 @@
-package nl.deelautoregistratie.deelautoapp
+package nl.deelautoregistratie.deelautoapp.account
 
 import android.accounts.AbstractAccountAuthenticator
 import android.accounts.Account
