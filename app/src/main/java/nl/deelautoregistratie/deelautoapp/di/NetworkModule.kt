@@ -2,6 +2,7 @@ package nl.deelautoregistratie.deelautoapp.di
 
 import android.content.Context
 import com.google.gson.Gson
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import nl.deelautoregistratie.deelautoapp.BuildConfig
@@ -29,7 +30,7 @@ class NetworkModule {
     @Singleton
     fun provideApiService(okHttpClient: OkHttpClient,
                           gsonConverterFactory: GsonConverterFactory,
-                          rxJavaCallAdapterFactory: RxJavaCallAdapterFactory): ApiService {
+                          rxJavaCallAdapterFactory: RxJava2CallAdapterFactory): ApiService {
 
         return Retrofit.Builder()
                 .baseUrl(BuildConfig.API_URL)
@@ -49,7 +50,7 @@ class NetworkModule {
         val client = OkHttpClient.Builder()
                 .cache(cache)
                 .addInterceptor(logging)
-//                .addInterceptor(AuthenticationInterceptor("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODg4OC9sb2dpbiIsImlhdCI6MTUyNzU5MjQ4OSwiZXhwIjoxNTU5MTI4NDg5LCJuYmYiOjE1Mjc1OTI0ODksImp0aSI6Imdsam04QWlkSmR0TkxuRVgifQ.cWyOz1yT-PJ44AVdroQE-g7e1C5mI_8Ak184XPza1EU"))
+                .addInterceptor(AuthenticationInterceptor("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjIsImlzcyI6Imh0dHA6Ly8xOTIuMTY4LjIuMTk6ODg4OC9sb2dpbiIsImlhdCI6MTUyNzY3MjcwMywiZXhwIjoxNTU5MjA4NzAzLCJuYmYiOjE1Mjc2NzI3MDMsImp0aSI6ImcxQzdXdlpUeXRVNkt5RVkifQ.O2rdQWfX144St8Eq2EAXYSEYvGdTMJFTevULf65OJLg"))
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
@@ -78,8 +79,8 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRxJavaCallAdapterFactory(): RxJavaCallAdapterFactory {
-        return RxJavaCallAdapterFactory.create()
+    fun provideRxJavaCallAdapterFactory(): RxJava2CallAdapterFactory {
+        return RxJava2CallAdapterFactory.create()
     }
 
     @Provides

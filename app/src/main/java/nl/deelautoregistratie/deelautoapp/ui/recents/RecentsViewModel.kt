@@ -1,13 +1,16 @@
 package nl.deelautoregistratie.deelautoapp.ui.recents
 
 import android.arch.lifecycle.ViewModel
-import nl.deelautoregistratie.deelautoapp.data.repository.CarSessionRepository
+import io.reactivex.disposables.CompositeDisposable
+import nl.deelautoregistratie.deelautoapp.data.repository.fromNetwork.CarSessionRepositoryNetworkOnly
+import nl.deelautoregistratie.deelautoapp.data.repository.fromNetworkAndDb.CarSessionRepository
 import javax.inject.Inject
 
 /**
  * Created by dennisvanderzalm on 27-04-18.
  */
-class RecentsViewModel @Inject constructor(val carSessionRepository: CarSessionRepository) : ViewModel() {
+class RecentsViewModel @Inject constructor(val carSessionRepository: CarSessionRepositoryNetworkOnly,
+                                           private val compositeDisposable: CompositeDisposable) : ViewModel() {
 
     private val repoResult = carSessionRepository.getCarSessions()
 
@@ -19,11 +22,12 @@ class RecentsViewModel @Inject constructor(val carSessionRepository: CarSessionR
         repoResult.refresh.invoke()
     }
 
-    fun retry(){
+    fun retry() {
         repoResult.retry.invoke()
     }
 
     override fun onCleared() {
         super.onCleared()
+        compositeDisposable.clear()
     }
 }

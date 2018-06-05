@@ -1,8 +1,8 @@
 package nl.deelautoregistratie.deelautoapp.data.networking
 
 import com.google.gson.annotations.SerializedName
+import io.reactivex.Flowable
 import nl.deelautoregistratie.deelautoapp.data.model.CarSession
-import retrofit2.Call
 import retrofit2.http.POST
 import retrofit2.http.Query
 
@@ -12,7 +12,7 @@ import retrofit2.http.Query
 interface ApiService {
 
     @POST("getCarSessions")
-    fun getRecentCarSessions(@Query("page") page: Int): Call<CarSessions<CarSession>>
+    fun getRecentCarSessions(@Query("page") page: Int): Flowable<CarSessions<CarSession>>
 
     class CarSessions<T>(
             @SerializedName("data")
