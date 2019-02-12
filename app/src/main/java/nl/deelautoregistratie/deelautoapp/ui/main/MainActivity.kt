@@ -5,9 +5,7 @@ import android.support.design.widget.BottomNavigationView
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import nl.deelautoregistratie.deelautoapp.R
-import nl.deelautoregistratie.deelautoapp.data.networking.ApiService
 import nl.deelautoregistratie.deelautoapp.ui.recents.RecentsFragment
-import javax.inject.Inject
 
 class MainActivity : DaggerAppCompatActivity() {
 

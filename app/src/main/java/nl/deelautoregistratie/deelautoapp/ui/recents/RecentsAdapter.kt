@@ -3,7 +3,7 @@ package nl.deelautoregistratie.deelautoapp.ui.recents
 import android.arch.paging.PagedListAdapter
 import android.support.v7.util.DiffUtil
 import android.view.ViewGroup
-import nl.deelautoregistratie.deelautoapp.data.model.CarSession
+import nl.deelautregistratie.domain.model.CarSession
 
 class RecentsAdapter : PagedListAdapter<CarSession, CarSessionItemViewHolder>(POST_COMPARATOR) {
     override fun onBindViewHolder(holder: CarSessionItemViewHolder, position: Int) {

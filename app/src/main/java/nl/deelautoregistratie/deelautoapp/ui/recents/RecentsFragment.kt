@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_recents.*
 import nl.deelautoregistratie.deelautoapp.R
-import nl.deelautoregistratie.deelautoapp.data.NetworkState
+import nl.deelautoregistratie.data.NetworkState
 import nl.deelautoregistratie.deelautoapp.utils.arch.ViewModelFactory
 import javax.inject.Inject
 
@@ -44,18 +44,6 @@ class RecentsFragment : DaggerFragment() {
 
         car_session_recyclerview.layoutManager = LinearLayoutManager(context)
         car_session_recyclerview.adapter = adapter
-
-        viewModel.carSessions.observe(this, Observer {
-            adapter.submitList(it)
-        })
-
-        viewModel.refreshState.observe(this, Observer {
-            swipe_refresh_layout.isRefreshing = it == NetworkState.LOADING
-        })
-
-        swipe_refresh_layout.setOnRefreshListener {
-            viewModel.refresh()
-        }
     }
 
     companion object {

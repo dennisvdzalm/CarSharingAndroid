@@ -1,33 +1,44 @@
 package nl.deelautoregistratie.deelautoapp.ui.recents
 
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
-import nl.deelautoregistratie.deelautoapp.data.repository.fromNetwork.CarSessionRepositoryNetworkOnly
-import nl.deelautoregistratie.deelautoapp.data.repository.fromNetworkAndDb.CarSessionRepository
+import nl.deelautoregistratie.deelautoapp.utils.arch.addTo
+import nl.deelautoregistratie.deelautoapp.utils.arch.schedule
+import nl.deelautoregistratie.deelautoapp.utils.arch.subscribeBy
+import nl.deelautoregistratie.deelautoapp.utils.rx.Scheduler
+import nl.deelautregistratie.domain.interactor.GetCarSessionsInteractor
+import nl.deelautregistratie.domain.model.CarSession
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
  * Created by dennisvanderzalm on 27-04-18.
  */
-class RecentsViewModel @Inject constructor(val carSessionRepository: CarSessionRepositoryNetworkOnly,
-                                           private val compositeDisposable: CompositeDisposable) : ViewModel() {
+class RecentsViewModel @Inject constructor(private val interactor: GetCarSessionsInteractor,
+                                           private val scheduler: Scheduler) : ViewModel() {
 
-    private val repoResult = carSessionRepository.getCarSessions()
+    private val disposables = CompositeDisposable()
 
-    val carSessions = repoResult.pagedList
-    val networkState = repoResult.networkState
-    val refreshState = repoResult.refreshState
+    val carSessions: LiveData<List<CarSession>> by lazy {
+        interactor.prepare(GetCarSessionsInteractor.RequestValues(0))
+                .schedule(scheduler)
+                .subscribeBy(
+                        success = {
+                            _carSessionLiveData.value = it
+                        },
+                        error = { Timber.e("Error while retrieving carsessions: '$it'") })
+                .addTo(disposables)
 
-    fun refresh() {
-        repoResult.refresh.invoke()
+        _carSessionLiveData
     }
 
-    fun retry() {
-        repoResult.retry.invoke()
-    }
+    private val _carSessionLiveData = MutableLiveData<List<CarSession>>()
+
 
     override fun onCleared() {
         super.onCleared()
-        compositeDisposable.clear()
+        disposables.dispose()
     }
 }

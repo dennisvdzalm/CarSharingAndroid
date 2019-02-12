@@ -5,14 +5,13 @@ import com.google.gson.Gson
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import dagger.Module
 import dagger.Provides
+import nl.deelautoregistratie.data.retrofit.AuthenticationInterceptor
+import nl.deelautoregistratie.data.retrofit.services.CarSessionService
 import nl.deelautoregistratie.deelautoapp.BuildConfig
-import nl.deelautoregistratie.deelautoapp.data.networking.ApiService
-import nl.deelautoregistratie.deelautoapp.data.networking.AuthenticationInterceptor
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
@@ -28,9 +27,9 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideApiService(okHttpClient: OkHttpClient,
+    fun provideCarSessionService(okHttpClient: OkHttpClient,
                           gsonConverterFactory: GsonConverterFactory,
-                          rxJavaCallAdapterFactory: RxJava2CallAdapterFactory): ApiService {
+                          rxJavaCallAdapterFactory: RxJava2CallAdapterFactory): CarSessionService {
 
         return Retrofit.Builder()
                 .baseUrl(BuildConfig.API_URL)
@@ -38,7 +37,7 @@ class NetworkModule {
                 .addCallAdapterFactory(rxJavaCallAdapterFactory)
                 .client(okHttpClient)
                 .build()
-                .create(ApiService::class.java)
+                .create(CarSessionService::class.java)
     }
 
     @Provides

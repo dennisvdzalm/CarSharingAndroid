@@ -11,8 +11,4 @@ import nl.deelautoregistratie.deelautoapp.ui.recents.RecentsModule
  */
 
 @Module
-abstract class MainActivityModule {
-    @PerFragment
-    @ContributesAndroidInjector(modules = [RecentsModule::class])
-    internal abstract fun provideRecentsFragment(): RecentsFragment
-}
+abstract class MainActivityModule
