@@ -7,7 +7,7 @@ import dagger.Module
 import dagger.Provides
 import nl.deelautoregistratie.data.retrofit.AuthenticationInterceptor
 import nl.deelautoregistratie.data.retrofit.services.CarSessionService
-import nl.deelautoregistratie.deelautoapp.BuildConfig
+import nl.deelautregistratie.domain.config.ApiConfig
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -27,12 +27,14 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideCarSessionService(okHttpClient: OkHttpClient,
-                          gsonConverterFactory: GsonConverterFactory,
-                          rxJavaCallAdapterFactory: RxJava2CallAdapterFactory): CarSessionService {
+    fun provideCarSessionService(
+            apiConfig: ApiConfig,
+            okHttpClient: OkHttpClient,
+            gsonConverterFactory: GsonConverterFactory,
+            rxJavaCallAdapterFactory: RxJava2CallAdapterFactory): CarSessionService {
 
         return Retrofit.Builder()
-                .baseUrl(BuildConfig.API_URL)
+                .baseUrl(apiConfig.url)
                 .addConverterFactory(gsonConverterFactory)
                 .addCallAdapterFactory(rxJavaCallAdapterFactory)
                 .client(okHttpClient)

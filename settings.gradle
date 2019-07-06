@@ -1,1 +1,6 @@
-include ':app', ':data', ':domain'
+include ':app'
+include ':libraries:data'
+include ':libraries:domain'
+include ':libraries:core'
+include ':features:overview'
+include ':features:login'

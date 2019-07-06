@@ -1,0 +1,30 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':libraries:domain')
+
+    testImplementation Deps.testlib_junit
+
+    implementation Deps.rx_java
+    implementation Deps.dagger
+
+    implementation Deps.retrofit
+    implementation Deps.retrofit_gson
+    implementation Deps.retrofit_rx_adapter
+
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
+    implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+
+    implementation Deps.room_rx
+    implementation Deps.room_runtime
+
+    kapt Deps.room_compiler
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
+}

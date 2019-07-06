@@ -1,0 +1,19 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+dependencies {
+    testImplementation Deps.testlib_junit
+
+    implementation Deps.rx_java
+    implementation Deps.rx_android
+
+    implementation Deps.dagger
+    implementation Deps.lifecycle_extensions
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
+}
