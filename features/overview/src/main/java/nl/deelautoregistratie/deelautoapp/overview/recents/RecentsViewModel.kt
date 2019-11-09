@@ -27,7 +27,7 @@ class RecentsViewModel @Inject constructor(
     val carSessions: LiveData<List<CarSession>> = _carSessionLiveData
 
     fun getCarSessions() {
-        interactor.prepare(GetCarSessionsInteractor.RequestValues(0))
+        interactor.get(GetCarSessionsInteractor.RequestValues(0))
                 .schedule(scheduler)
                 .subscribeBy(
                         success = { _carSessionLiveData.value = it },

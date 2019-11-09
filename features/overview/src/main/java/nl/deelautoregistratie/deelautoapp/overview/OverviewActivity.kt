@@ -24,6 +24,9 @@ class OverviewActivity : DaggerAppCompatActivity() {
                 R.id.navigation_notifications -> Timber.d("Notifications clicked")
             }
         }
-    }
 
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.container, RecentsFragment.newInstance())
+                .commit()
+    }
 }

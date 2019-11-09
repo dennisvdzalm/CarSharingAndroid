@@ -3,6 +3,7 @@ package nl.deelautoregistratie.deelautoapp.di
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
+import nl.deelautoregistratie.data.di.DataSourceModule
 import nl.deelautoregistratie.deelautoapp.Application
 import nl.deelautoregistratie.deelautoapp.login.di.LoginModule
 import nl.deelautoregistratie.deelautoapp.navigation.di.NavigationModule
@@ -20,6 +21,7 @@ import javax.inject.Singleton
     ActivityBuilder::class,
     ConfigModule::class,
     DatabaseModule::class,
+    DataSourceModule::class,
     RepositoryModule::class,
     NetworkModule::class,
     NavigationModule::class,
