@@ -1,2 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="nl.deelautoregistratie.deelautoapp" />
+    package="nl.deelautoregistratie.deelautoapp.overview">
+
+    <application>
+
+        <activity android:name=".OverviewActivity" />
+    </application>
+</manifest>

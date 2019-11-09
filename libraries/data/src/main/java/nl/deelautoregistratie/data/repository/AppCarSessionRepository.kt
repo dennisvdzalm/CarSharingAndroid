@@ -11,9 +11,9 @@ import javax.inject.Inject
 /**
  * Created by dennisvanderzalm on 28-05-18.
  */
-class CarSessionRepository @Inject constructor(private val apiService: CarSessionService,
-                                               private val mapper: CarSessionMapper,
-                                               private val db: CarSessionDatabase) : CarSessionRepository {
+class AppCarSessionRepository @Inject constructor(private val apiService: CarSessionService,
+                                                  private val mapper: CarSessionMapper,
+                                                  private val db: CarSessionDatabase) : CarSessionRepository {
 
     override fun getCarSessions(): Single<List<CarSession>> {
         return apiService.getRecentCarSessions(0)

@@ -3,6 +3,12 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
+android{
+    dataBinding {
+        enabled = true
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(":libraries:domain")
@@ -23,7 +29,10 @@ dependencies {
     implementation Deps.timber
 
     implementation Deps.lifecycle_extensions
+
     kapt Deps.lifecycle_compiler
+    kapt Deps.dagger_compiler
+    kapt Deps.dagger_android_processor
 
     testImplementation Deps.testlib_junit
 

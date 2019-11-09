@@ -1,2 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="nl.deelautoregistratie.deelautoapp" />
+    package="nl.deelautoregistratie.deelautoapp.login">
+
+    <application>
+        <activity android:name=".LoginActivity" />
+    </application>
+</manifest>

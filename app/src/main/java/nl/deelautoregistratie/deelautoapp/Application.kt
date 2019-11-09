@@ -1,26 +1,25 @@
 package nl.deelautoregistratie.deelautoapp
 
-import android.app.Application
 import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
+import dagger.android.DaggerApplication
 import nl.deelautoregistratie.deelautoapp.di.DaggerAppComponent
-import javax.inject.Inject
-
+import timber.log.Timber
 
 /**
  * Created by dennisvanderzalm on 27-04-18.
  */
-class Application : Application(), HasAndroidInjector {
-
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
+class Application : DaggerApplication() {
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> =
+            DaggerAppComponent.factory().create(this)
 
     override fun onCreate() {
         super.onCreate()
-        DaggerAppComponent.create()
+        setupTimber()
     }
 
-    override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector
-
+    private fun setupTimber() {
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
+    }
 }

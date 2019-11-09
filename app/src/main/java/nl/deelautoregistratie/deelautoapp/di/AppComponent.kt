@@ -1,10 +1,12 @@
 package nl.deelautoregistratie.deelautoapp.di
 
-import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import nl.deelautoregistratie.deelautoapp.Application
+import nl.deelautoregistratie.deelautoapp.login.di.LoginModule
+import nl.deelautoregistratie.deelautoapp.navigation.di.NavigationModule
+import nl.deelautoregistratie.deelautoapp.overview.di.OverviewModule
 import javax.inject.Singleton
 
 
@@ -15,17 +17,18 @@ import javax.inject.Singleton
 @Component(modules = [
     AndroidSupportInjectionModule::class,
     AppModule::class,
-    NetworkModule::class,
     ActivityBuilder::class,
-    FragmentBuilder::class,
-    ConfigModule::class
+    ConfigModule::class,
+    DatabaseModule::class,
+    RepositoryModule::class,
+    NetworkModule::class,
+    NavigationModule::class,
+    OverviewModule::class,
+    LoginModule::class
 ])
-interface AppComponent : AndroidInjector<Application>
+interface AppComponent : AndroidInjector<Application> {
 
-@Component.Builder
-interface Builder {
-    @BindsInstance
-    fun application(application: Application): Builder
-
-    fun build(): AppComponent
+    @Component.Factory
+    interface Factory : AndroidInjector.Factory<Application>
 }
+

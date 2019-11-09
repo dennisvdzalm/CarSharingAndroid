@@ -1,4 +1,4 @@
-package nl.deelautoregistratie.deelautoapp.ui.login
+package nl.deelautoregistratie.deelautoapp.login
 
 import android.os.Bundle
 import android.view.LayoutInflater

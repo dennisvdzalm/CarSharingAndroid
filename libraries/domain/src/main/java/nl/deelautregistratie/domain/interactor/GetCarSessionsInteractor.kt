@@ -7,7 +7,6 @@ import javax.inject.Inject
 
 class GetCarSessionsInteractor @Inject constructor(private val repository: CarSessionRepository) {
 
-
     fun prepare(requestValues: RequestValues): Single<List<CarSession>> {
         return repository.getCarSessions()
     }

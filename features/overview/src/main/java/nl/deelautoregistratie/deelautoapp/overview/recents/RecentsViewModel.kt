@@ -1,4 +1,4 @@
-package nl.deelautoregistratie.deelautoapp.recents
+package nl.deelautoregistratie.deelautoapp.overview.recents
 
 
 import androidx.lifecycle.LiveData
@@ -17,25 +17,23 @@ import javax.inject.Inject
 /**
  * Created by dennisvanderzalm on 27-04-18.
  */
-class RecentsViewModel @Inject constructor(private val interactor: GetCarSessionsInteractor,
-                                           private val scheduler: Scheduler) : ViewModel() {
+class RecentsViewModel @Inject constructor(
+        private val interactor: GetCarSessionsInteractor,
+        private val scheduler: Scheduler) : ViewModel() {
 
     private val disposables = CompositeDisposable()
 
-    val carSessions: LiveData<List<CarSession>> by lazy {
+    private val _carSessionLiveData = MutableLiveData<List<CarSession>>()
+    val carSessions: LiveData<List<CarSession>> = _carSessionLiveData
+
+    fun getCarSessions() {
         interactor.prepare(GetCarSessionsInteractor.RequestValues(0))
                 .schedule(scheduler)
                 .subscribeBy(
-                        success = {
-                            _carSessionLiveData.value = it
-                        },
+                        success = { _carSessionLiveData.value = it },
                         error = { Timber.e("Error while retrieving carsessions: '$it'") })
                 .addTo(disposables)
-
-        _carSessionLiveData
     }
-
-    private val _carSessionLiveData = MutableLiveData<List<CarSession>>()
 
 
     override fun onCleared() {

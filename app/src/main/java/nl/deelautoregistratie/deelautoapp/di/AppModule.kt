@@ -17,13 +17,11 @@ class AppModule {
 
     @Provides
     @Singleton
-    internal fun provideContext(application: Application): Context {
-        return application
-    }
+    internal fun provideContext(application: Application): Context =
+            application
+
 
     @Provides
     @Singleton
-    fun provideScheduler(): Scheduler {
-        return AppScheduler()
-    }
+    fun provideScheduler(): Scheduler = AppScheduler()
 }

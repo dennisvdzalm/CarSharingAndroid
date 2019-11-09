@@ -36,7 +36,7 @@ object Versions {
     val lifecycle_version = "2.0.0"
 
     //di
-    val dagger = "2.23.2"
+    val dagger = "2.25.2"
 
     //networking
     val retrofit = "2.4.0"
