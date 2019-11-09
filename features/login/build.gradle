@@ -23,6 +23,9 @@ dependencies {
     implementation Deps.dagger_android
     implementation Deps.dagger_android_support
 
+    implementation Deps.rx_java
+    implementation Deps.timber
+
     implementation Deps.lifecycle_extensions
 
     kapt Deps.lifecycle_compiler
